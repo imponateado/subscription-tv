@@ -1,0 +1,14 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = "0.8.9"
+csv = "1.4.0"
+futures = "0.3.34"
+reqwest = { version = "0.13.5", default-features = false, features = ["rustls"] }
+roxmltree = "0.21.2"
+rust-embed = { version = "8.13.0", features = ["mime-guess"] }
+serde = { version = "1.0.229", features = ["derive"] }
+tokio = { version = "1.54.1", features = ["full"] }

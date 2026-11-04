@@ -1,0 +1,56 @@
+<main>
+  <form class="controls" (submit)="$event.preventDefault(); load()">
+    <label>
+      Últimos
+      <input type="number" min="1" max="60" [value]="days()" (input)="days.set(+$any($event.target).value || 1)" />
+      dias
+    </label>
+    <label>
+      Ordem
+      <select (change)="oldestFirst.set($any($event.target).value === 'old')">
+        <option value="new">Mais novos primeiro</option>
+        <option value="old">Mais antigos primeiro</option>
+      </select>
+    </label>
+    <button type="submit" [disabled]="loading()">{{ loading() ? 'Carregando…' : 'Carregar' }}</button>
+  </form>
+
+  @if (failed()) {
+    <p role="alert">Não consegui buscar os vídeos. O backend está rodando?</p>
+  }
+
+  @if (current(); as v) {
+    <youtube-player
+      [videoId]="v.id"
+      [width]="width"
+      [height]="height"
+      [disablePlaceholder]="true"
+      (stateChange)="onState($event)"
+      (error)="step(1)"
+    />
+    <div class="now">
+      <button type="button" (click)="step(-1)" aria-label="Vídeo anterior">⏮</button>
+      <div>
+        <strong>{{ v.title }}</strong>
+        <span>{{ v.channel }} · {{ v.published | date: 'dd/MM HH:mm' }}</span>
+      </div>
+      <button type="button" (click)="step(1)" aria-label="Próximo vídeo">⏭</button>
+    </div>
+  }
+
+  @if (queue().length) {
+    <p>{{ queue().length }} vídeos na fila</p>
+    <ol class="queue">
+      @for (v of queue(); track v.id) {
+        <li>
+          <button type="button" [class.active]="v.id === currentId()" (click)="currentId.set(v.id)">
+            <strong>{{ v.title }}</strong>
+            <span>{{ v.channel }} · {{ v.published | date: 'dd/MM HH:mm' }}</span>
+          </button>
+        </li>
+      }
+    </ol>
+  } @else if (!loading()) {
+    <p>Escolha o período e clique em Carregar.</p>
+  }
+</main>

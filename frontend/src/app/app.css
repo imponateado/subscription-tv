@@ -1,0 +1,11 @@
+main { max-width: 960px; margin: 0 auto; padding: 16px; display: grid; gap: 12px; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.controls input { width: 4em; }
+.now { display: flex; gap: 12px; align-items: center; }
+.now div, .queue button { display: grid; text-align: left; }
+.now div { flex: 1; }
+span { opacity: 0.7; font-size: 0.9em; }
+.queue { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+.queue button { width: 100%; padding: 8px; border: 1px solid transparent; background: none; color: inherit; cursor: pointer; border-radius: 6px; }
+.queue button:hover { background: #8882; }
+.queue button.active { border-color: currentColor; background: #8883; }
